@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ClotheSizeEntity } from './clothe.size.entity';
+import { AssignmentEntity } from './assignment.entity';
 @Entity('clothes')
 export class ClothesEntity {
   @PrimaryGeneratedColumn()
@@ -19,7 +21,8 @@ export class ClothesEntity {
 
   @Column({ type: 'text', nullable: true })
   description?: string;
-
+  @OneToMany(() => AssignmentEntity, (assignment) => assignment.clothes)
+  assignments: AssignmentEntity[];
   @ManyToOne(() => ClotheSizeEntity, (clotheSize) => clotheSize.clothes)
   sizes: ClotheSizeEntity;
   @CreateDateColumn({ type: 'timestamp without time zone' })

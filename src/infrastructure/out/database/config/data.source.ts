@@ -6,6 +6,8 @@ import { DataSource } from 'typeorm';
 import { EmployeeEntity } from '../entities/employee.entity';
 import { ClotheSizeEntity } from '../entities/clothe.size.entity';
 import { ClothesEntity } from '../entities/clothes.entity';
+import { AssignmentEntity } from '../entities/assignment.entity';
+import { DeliveryEntity } from '../entities/delivery.entity';
 dotenv.config();
 
 export const DataSourceConfig: DataSourceOptions = {
@@ -17,7 +19,14 @@ export const DataSourceConfig: DataSourceOptions = {
   password: process.env.DB_PASSWORD,
   synchronize: false,
   logging: false,
-  entities: [UserEntity, EmployeeEntity, ClotheSizeEntity, ClothesEntity],
+  entities: [
+    UserEntity,
+    EmployeeEntity,
+    ClotheSizeEntity,
+    ClothesEntity,
+    AssignmentEntity,
+    DeliveryEntity,
+  ],
   migrations: [path.join(__dirname, '../migrations/*.{js,ts}')],
 };
 
