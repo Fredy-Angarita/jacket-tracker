@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { UserEntity } from '../entities/user.entity';
 import path from 'path';
 import { DataSource } from 'typeorm';
+import { EmployeeEntity } from '../entities/employee.entity';
 dotenv.config();
 
 export const DataSourceConfig: DataSourceOptions = {
@@ -14,7 +15,7 @@ export const DataSourceConfig: DataSourceOptions = {
   password: process.env.DB_PASSWORD,
   synchronize: false,
   logging: false,
-  entities: [UserEntity],
+  entities: [UserEntity, EmployeeEntity],
   migrations: [path.join(__dirname, '../migrations/*.{js,ts}')],
 };
 
