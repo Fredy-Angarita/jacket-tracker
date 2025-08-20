@@ -1,5 +1,4 @@
-export interface UserModel {
-  id?: string;
+export interface CreateUserDto {
   username: string;
   email: string;
   password: string;
