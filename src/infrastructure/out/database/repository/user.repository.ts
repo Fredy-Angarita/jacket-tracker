@@ -11,11 +11,14 @@ export class UserRepository implements IUserPersistencePort {
     @InjectRepository(UserEntity)
     private readonly repository: Repository<UserEntity>,
   ) {}
+  async getAllUsers(): Promise<UserModel[]> {
+    return await this.repository.find();
+  }
   async createUser(user: UserModel): Promise<UserModel> {
     return await this.repository.save(user);
   }
-  async getAllUsers(): Promise<UserModel[]> {
-    return await this.repository.find();
+  async updateUser(id: string, user: Partial<UserModel>): Promise<void> {
+    await this.repository.update(id, user);
   }
   async getUserById(id: string): Promise<UserModel | null> {
     const user = await this.repository.findOneBy({ id });
@@ -24,7 +27,18 @@ export class UserRepository implements IUserPersistencePort {
     }
     return user;
   }
-  async updateUser(id: string, user: Partial<UserModel>): Promise<void> {
-    await this.repository.update(id, user);
+  async getUserByUsername(username: string): Promise<UserModel | null> {
+    const user = await this.repository.findOneBy({ username });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+  async getUserByEmail(email: string): Promise<UserModel | null> {
+    const user = await this.repository.findOneBy({ email });
+    if (!user) {
+      return null;
+    }
+    return user;
   }
 }
