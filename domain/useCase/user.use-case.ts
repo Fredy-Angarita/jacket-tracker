@@ -19,10 +19,6 @@ export class UserUseCase {
     return this.userPersistencePort.createUser(user);
   }
 
-  async getAllUsers(): Promise<UserModel[]> {
-    return this.userPersistencePort.getAllUsers();
-  }
-
   async getUserById(id: string): Promise<UserModel | null> {
     return this.userPersistencePort.getUserById(id);
   }
