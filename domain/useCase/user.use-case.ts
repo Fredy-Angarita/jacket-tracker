@@ -19,10 +19,6 @@ export class UserUseCase {
     return this.userPersistencePort.createUser(user);
   }
 
-  async getUserById(id: string): Promise<UserModel | null> {
-    return this.userPersistencePort.getUserById(id);
-  }
-
   async updateUser(id: string, user: Partial<UserModel>): Promise<void> {
     return this.userPersistencePort.updateUser(id, user);
   }
