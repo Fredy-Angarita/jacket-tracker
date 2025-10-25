@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
 import { DatabaseModule } from './infrastructure/out/database/database.module';
 import { UserController } from './infrastructure/in/http/user.controller';
 import { UserHandler } from 'application/Handler/user.handler';
@@ -10,7 +9,6 @@ import { UserRepository } from './infrastructure/out/database/repository/user.re
   imports: [DatabaseModule],
   controllers: [UserController],
   providers: [
-    AppService,
     UserHandler,
     {
       provide: 'UserUseCase',
