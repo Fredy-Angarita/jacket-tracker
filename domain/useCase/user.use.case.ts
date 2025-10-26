@@ -22,4 +22,8 @@ export class UserUseCase {
   async updateUser(id: string, user: Partial<UserModel>): Promise<void> {
     return this.userPersistencePort.updateUser(id, user);
   }
+
+  async getUserByEmail(email: string): Promise<UserModel | null> {
+    return this.userPersistencePort.getUserByEmail(email);
+  }
 }
