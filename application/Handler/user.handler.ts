@@ -11,4 +11,7 @@ export class UserHandler {
   async createUser(createUserDto: CreateUserDto): Promise<UserModel> {
     return this.userUseCase.createUser(createUserDto);
   }
+  async getUserByID(id: string): Promise<UserModel | null> {
+    return this.userUseCase.getUserByID(id);
+  }
 }

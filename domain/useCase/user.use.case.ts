@@ -26,4 +26,8 @@ export class UserUseCase {
   async getUserByEmail(email: string): Promise<UserModel | null> {
     return this.userPersistencePort.getUserByEmail(email);
   }
+
+  async getUserByID(id: string): Promise<UserModel | null> {
+    return this.userPersistencePort.getUserById(id);
+  }
 }
