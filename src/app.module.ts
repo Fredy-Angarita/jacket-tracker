@@ -5,8 +5,10 @@ import { UserHandler } from 'application/Handler/user.handler';
 import { UserUseCase } from 'domain/useCase/user.use.case';
 import { UserRepository } from './infrastructure/out/database/repository/user.repository';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './infrastructure/in/auth/strategies/jwt.strategy';
+import { AuthHandler } from 'application/Handler/auth.handler';
+import { AuthUseCase } from 'domain/useCase/auth.use.case';
 
 @Module({
   imports: [
@@ -21,6 +23,13 @@ import { JwtStrategy } from './infrastructure/in/auth/strategies/jwt.strategy';
   providers: [
     UserHandler,
     JwtStrategy,
+    AuthHandler,
+    {
+      provide: 'AuthUseCase',
+      useFactory: (userPersistencePort, jwtService) =>
+        new AuthUseCase(userPersistencePort, jwtService),
+      inject: [UserRepository, JwtService],
+    },
     {
       provide: 'UserUseCase',
       useFactory: (userPersistencePort) => new UserUseCase(userPersistencePort),
