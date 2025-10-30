@@ -13,10 +13,10 @@ import { AuthUseCase } from 'domain/useCase/auth.use.case';
 @Module({
   imports: [
     DatabaseModule,
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.SECRET,
-      signOptions: { expiresIn: '3d' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [UserController],
