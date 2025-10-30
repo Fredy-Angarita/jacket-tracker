@@ -11,4 +11,7 @@ export class AuthHandler {
   async register(userDto: CreateUserDto) {
     return this.authUseCase.register(userDto);
   }
+  async login(loginDto: { email: string; password: string }) {
+    return this.authUseCase.login(loginDto);
+  }
 }
