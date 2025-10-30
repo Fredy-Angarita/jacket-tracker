@@ -25,7 +25,7 @@ export class AuthUseCase {
       throw new BadRequestException(ERROR_CONSTANTS.USER_NOT_FOUND);
     }
     return {
-      token: this.jwt.sign({ id: user.id, email: user.email }),
+      token: this.jwt.sign({ sub: user.id }),
     };
   }
   async register(user: UserModel): Promise<AuthResponse> {
@@ -51,7 +51,7 @@ export class AuthUseCase {
     const result = await this.userPersistencePort.createUser(user);
 
     return {
-      token: this.jwt.sign({ id: result.id, email: result.email }),
+      token: this.jwt.sign({ sub: result.id }),
     };
   }
 }
