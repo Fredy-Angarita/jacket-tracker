@@ -15,6 +15,4 @@ export class ClotheSizeEntity {
   size: string;
   @OneToMany(() => ClothesEntity, (clothes) => clothes.sizes)
   clothes: ClothesEntity[];
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
 }
