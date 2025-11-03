@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { secret } from '../config/auth.source';
 import { JwtPayload } from '../interfaces/jwt.payload.interface';
+import { UserValidate } from '../interfaces/user.validate.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -22,12 +23,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
-  async validate(payload: JwtPayload) {
+  async validate(payload: JwtPayload): Promise<UserValidate> {
     const { sub } = payload;
     const user = await this.userHandler.getUserByID(sub);
     if (!user) throw new UnauthorizedException('Invalid token');
     return {
-      id: user.id,
+      id: user.id!,
       username: user.username,
       email: user.email,
     };
