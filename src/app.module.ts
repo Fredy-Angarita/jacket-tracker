@@ -1,17 +1,35 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
 import { DatabaseModule } from './infrastructure/out/database/database.module';
 import { UserController } from './infrastructure/in/http/user.controller';
 import { UserHandler } from 'application/Handler/user.handler';
-import { UserUseCase } from 'domain/useCase/user.use-case';
+import { UserUseCase } from 'domain/useCase/user.use.case';
 import { UserRepository } from './infrastructure/out/database/repository/user.repository';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from './infrastructure/in/auth/strategies/jwt.strategy';
+import { AuthHandler } from 'application/Handler/auth.handler';
+import { AuthUseCase } from 'domain/useCase/auth.use.case';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [
+    DatabaseModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: process.env.SECRET,
+      signOptions: { expiresIn: '1d' },
+    }),
+  ],
   controllers: [UserController],
   providers: [
-    AppService,
     UserHandler,
+    JwtStrategy,
+    AuthHandler,
+    {
+      provide: 'AuthUseCase',
+      useFactory: (userPersistencePort, jwtService) =>
+        new AuthUseCase(userPersistencePort, jwtService),
+      inject: [UserRepository, JwtService],
+    },
     {
       provide: 'UserUseCase',
       useFactory: (userPersistencePort) => new UserUseCase(userPersistencePort),
